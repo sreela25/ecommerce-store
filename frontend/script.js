@@ -39,7 +39,7 @@ async function register() {
     const password = document.getElementById("password").value;
 
     const response = await fetch(
-        "http://localhost:5000/api/auth/register",
+        "https://ecommerce-store-backend-sklo.onrender.com/api/auth/register",
         {
             method: "POST",
 
@@ -68,7 +68,7 @@ async function login() {
     const password = document.getElementById("password").value;
 
     const response = await fetch(
-        "http://localhost:5000/api/auth/login",
+        "https://ecommerce-store-backend-sklo.onrender.com/api/auth/login",
         {
             method: "POST",
 
@@ -105,7 +105,7 @@ async function login() {
 async function loadProducts() {
 
     const response = await fetch(
-        "http://localhost:5000/api/products"
+        "https://ecommerce-store-backend-sklo.onrender.com/api/products"
     );
 
     allProducts = await response.json();
@@ -257,7 +257,7 @@ Edit
 async function rateProduct(id,rating)
 {
     await fetch(
-        `http://localhost:5000/api/products/rating/${id}`,
+        `https://ecommerce-store-backend-sklo.onrender.com/api/products/rating/${id}`,
         {
             method:"PUT",
 
@@ -353,7 +353,7 @@ async function updateProduct(
 )
 {
     await fetch(
-        `http://localhost:5000/api/products/${id}`,
+        `https://ecommerce-store-backend-sklo.onrender.com/api/products/${id}`,
         {
             method:"PUT",
 
@@ -388,7 +388,7 @@ async function deleteProduct(id)
     }
 
     await fetch(
-        `http://localhost:5000/api/products/${id}`,
+        `https://ecommerce-store-backend-sklo.onrender.com/api/products/${id}`,
         {
             method:"DELETE"
         }
@@ -408,7 +408,7 @@ async function addToCart(productId) {
     localStorage.getItem("userId");
 
     const response = await fetch(
-        "http://localhost:5000/api/cart",
+        "https://ecommerce-store-backend-sklo.onrender.com/api/cart",
         {
             method: "POST",
 
@@ -435,7 +435,7 @@ async function loadCart() {
     localStorage.getItem("userId");
 
     const response = await fetch(
-        `http://localhost:5000/api/cart/${userId}`
+        `https://ecommerce-store-backend-sklo.onrender.com/api/cart/${userId}`
     );
 
     const items = await response.json();
@@ -529,7 +529,7 @@ async function updateQuantity(id, quantity)
     }
 
     await fetch(
-        `http://localhost:5000/api/cart/${id}`,
+        `https://ecommerce-store-backend-sklo.onrender.com/api/cart/${id}`,
         {
             method:"PUT",
 
@@ -551,7 +551,7 @@ async function loadDashboard()
 
     const usersResponse =
 await fetch(
-"http://localhost:5000/api/auth/users"
+"https://ecommerce-store-backend-sklo.onrender.com/api/auth/users"
 );
 
 const users =
@@ -564,7 +564,7 @@ users.length;
 
     const productsResponse =
     await fetch(
-        "http://localhost:5000/api/products"
+        "https://ecommerce-store-backend-sklo.onrender.com/api/products"
     );
 
     const products =
@@ -577,7 +577,7 @@ users.length;
 
     const ordersResponse =
     await fetch(
-        "http://localhost:5000/api/orders"
+        "https://ecommerce-store-backend-sklo.onrender.com/api/orders"
     );
 
     const orders =
@@ -606,7 +606,7 @@ users.length;
 async function removeCartItem(id)
 {
     await fetch(
-        `http://localhost:5000/api/cart/${id}`,
+        `https://ecommerce-store-backend-sklo.onrender.com/api/cart/${id}`,
         {
             method:"DELETE"
         }
@@ -623,7 +623,7 @@ async function placeOrder() {
     localStorage.getItem("userId");
 
     const cartResponse = await fetch(
-        `http://localhost:5000/api/cart/${userId}`
+        `https://ecommerce-store-backend-sklo.onrender.com/api/cart/${userId}`
     );
 
     const cartItems =
@@ -641,7 +641,7 @@ async function placeOrder() {
 }));
 
     const response = await fetch(
-        "http://localhost:5000/api/orders",
+        "https://ecommerce-store-backend-sklo.onrender.com/api/orders",
         {
             method: "POST",
 
@@ -684,13 +684,13 @@ async function loadOrders() {
     if(isAdmin)
     {
         response = await fetch(
-            "http://localhost:5000/api/orders"
+            "https://ecommerce-store-backend-sklo.onrender.com/api/orders"
         );
     }
     else
     {
         response = await fetch(
-            `http://localhost:5000/api/orders/${userId}`
+            `https://ecommerce-store-backend-sklo.onrender.com/api/orders/${userId}`
         );
     }
 
@@ -790,7 +790,7 @@ Cancelled
 async function updateOrderStatus(id,status)
 {
     await fetch(
-        `http://localhost:5000/api/orders/${id}`,
+        `https://ecommerce-store-backend-sklo.onrender.com/api/orders/${id}`,
         {
             method:"PUT",
             headers:{
@@ -809,7 +809,7 @@ async function loadRevenueChart()
 {
     const response =
     await fetch(
-        "http://localhost:5000/api/orders"
+        "https://ecommerce-store-backend-sklo.onrender.com/api/orders"
     );
 
     const orders =
@@ -887,7 +887,7 @@ if(
 }
 
     const response = await fetch(
-        "http://localhost:5000/api/products",
+        "https://ecommerce-store-backend-sklo.onrender.com/api/products",
         {
             method: "POST",
             headers: {
