@@ -7,8 +7,7 @@ if(
     !== "admin"
 )
 {
-    window.location =
-    "products.html";
+    window.location.href = "./products.html";
 }
 
 const publicPages =
