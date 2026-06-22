@@ -26,7 +26,7 @@ if(
     !publicPages.includes(currentPage)
 )
 {
-    window.location = "index.html";
+    window.location.href = "./index.html";
 }
 
 async function register() {
@@ -98,7 +98,7 @@ async function login() {
 
     alert("Login Successful");
 
-    window.location = "products.html";
+    window.location.href = "./products.html";
 }
 
 async function loadProducts() {
@@ -666,7 +666,7 @@ if(!response.ok)
 
 alert("Order Placed");
 
-window.location = "orders.html";
+window.location.href = "./orders.html";
 
 }
 
@@ -857,7 +857,7 @@ function logout()
 {
     localStorage.clear();
 
-    window.location = "index.html";
+    window.location.href = "./index.html";
 }
 
 async function addProduct() {
