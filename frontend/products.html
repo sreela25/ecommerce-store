@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav>
+
+        <h2>E-Commerce Store</h2>
+
+        <div>
+
+            <a href="products.html">Products</a>
+
+            <a href="cart.html">Cart</a>
+
+            <a href="orders.html">Orders</a>
+
+            <a href="admin.html" id="adminLink">Admin</a>
+
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+    <h1>Products</h1>
+
+    <div class="filters">
+
+    <input
+        type="text"
+        id="search"
+        placeholder="Search Products">
+
+    <select id="categoryFilter">
+        <option value="">All Categories</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Books">Books</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Footwear">Footwear</option>
+        <option value="Accessories">Accessories</option>
+        <option value="Home">Home</option>
+    </select>
+
+    <select id="sort">
+        <option value="">Sort By</option>
+        <option value="low-high">
+            Price: Low to High
+        </option>
+        <option value="high-low">
+            Price: High to Low
+        </option>
+    </select>
+
+</div>
+
+    <div id="products"></div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

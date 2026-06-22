@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav>
+
+        <h2>E-Commerce Store</h2>
+
+        <div>
+
+            <a href="products.html">Products</a>
+
+            <a href="cart.html">Cart</a>
+
+            <a href="orders.html">Orders</a>
+
+            <a href="admin.html" id="adminLink">Admin</a>
+            
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+    <h1>My Cart</h1>
+
+    <div id="cart"></div>
+
+    <br>
+
+    <button class="place-order-btn"
+        onclick="placeOrder()">
+        Place Order
+    </button>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
