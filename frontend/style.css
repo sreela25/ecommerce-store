@@ -282,3 +282,18 @@ select{
     color:red;
     font-weight:bold;
 }
+
+.whatsapp-btn {
+    display: inline-block;
+    background: #25D366;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.whatsapp-btn:hover {
+    opacity: 0.9;
+}
