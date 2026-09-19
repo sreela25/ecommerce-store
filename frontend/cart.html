@@ -37,12 +37,15 @@
 
     <br>
 
-    <button class="place-order-btn"
-        onclick="placeOrder()">
-        Place Order
-    </button>
+    <button id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
 
     <script src="script.js"></script>
+
+    <script>
+        if (localStorage.getItem("role") !== "admin") {
+            document.getElementById("placeOrderBtn").style.display = "none";
+        }
+    </script>
 
 </body>
 
