@@ -33,13 +33,17 @@
 
     <h1>My Cart</h1>
 
-    <br><a href="https://wa.me/919994996826?text=Hi%2C%20I%20want%20to%20place%20an%20order." 
-   target="_blank" 
-   class="whatsapp-btn">
-    💬 Order on WhatsApp
-</a><br>
+    <br>
 
     <div id="cart"></div>
+
+    <br>
+
+<a href="#" id="whatsappOrderBtn" class="whatsapp-btn">
+    💬 Order on WhatsApp
+</a>
+
+<br><br>
 
     <br>
 
@@ -52,6 +56,66 @@
             document.getElementById("placeOrderBtn").style.display = "none";
         }
     </script>
+
+    <script>
+async function sendCartToWhatsApp() {
+
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+        alert("Please login first");
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `https://ecommerce-store-backend-sklo.onrender.com/api/cart/${userId}`
+        );
+
+        const cartItems = await response.json();
+
+        if (cartItems.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+
+        let message = "Hi, I want to place an order.%0A%0A";
+        let total = 0;
+
+        cartItems.forEach((item, index) => {
+
+            const product = item.productId;
+
+            const itemTotal = product.price * item.quantity;
+            total += itemTotal;
+
+            message += `${index + 1}. ${product.name}%0A`;
+            message += `Quantity: ${item.quantity}%0A`;
+            message += `Price: ₹${product.price}%0A`;
+            message += `Subtotal: ₹${itemTotal}%0A%0A`;
+        });
+
+        message += `Total: ₹${total}%0A%0A`;
+        message += "Please confirm my order.";
+
+        const phoneNumber = "919994996826";
+
+        const whatsappURL =
+            `https://wa.me/${phoneNumber}?text=${message}`;
+
+        window.open(whatsappURL, "_blank");
+
+    } catch (error) {
+        console.error(error);
+        alert("Unable to create WhatsApp order.");
+    }
+}
+
+document.getElementById("whatsappOrderBtn").addEventListener(
+    "click",
+    sendCartToWhatsApp
+);
+</script>
 
 </body>
 
