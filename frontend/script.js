@@ -181,9 +181,7 @@ localStorage.getItem("role")
 
             <p>${product.description}</p>
 
-            <p>
-⭐ ${product.rating}
-</p>
+            
 
             <p>Rs. ${product.price}</p>
 
@@ -217,20 +215,6 @@ Out Of Stock
 `
 }
 
-<select
-onchange="rateProduct('${product._id}', this.value)">
-
-<option value="1" ${product.rating == 1 ? "selected" : ""}>⭐ 1</option>
-
-<option value="2" ${product.rating == 2 ? "selected" : ""}>⭐⭐ 2</option>
-
-<option value="3" ${product.rating == 3 ? "selected" : ""}>⭐⭐⭐ 3</option>
-
-<option value="4" ${product.rating == 4 ? "selected" : ""}>⭐⭐⭐⭐ 4</option>
-
-<option value="5" ${product.rating == 5 ? "selected" : ""}>⭐⭐⭐⭐⭐ 5</option>
-
-</select>
 
             ${isAdmin ? `
 

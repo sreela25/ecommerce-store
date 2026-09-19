@@ -80,29 +80,6 @@ router.put("/:id", async (req, res) => {
 
 });
 
-router.put("/rating/:id", async (req, res) => {
-
-    try {
-
-        const product =
-        await Product.findById(req.params.id);
-
-        product.rating =
-        req.body.rating;
-
-        await product.save();
-
-        res.json(product);
-
-    } catch(error) {
-
-        res.status(500).json({
-            message:error.message
-        });
-
-    }
-
-});
 
 router.delete("/:id", async (req, res) => {
 
