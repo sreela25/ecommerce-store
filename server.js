@@ -22,6 +22,7 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/products", require("./routes/products"));
 app.use("/api/cart", require("./routes/cart"));
 app.use("/api/orders", require("./routes/orders"));
+app.use("/api/admin-note", require("./routes/adminNote"));
 
 app.listen(PORT, ()=>{
     console.log("Server Started");

@@ -297,3 +297,22 @@ select{
 .whatsapp-btn:hover {
     opacity: 0.9;
 }
+
+.admin-note {
+    background: #fff8d6;
+    padding: 18px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 900px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.admin-note h3 {
+    margin-top: 0;
+}
+
+.admin-note p {
+    margin-bottom: 0;
+    white-space: pre-wrap;
+}

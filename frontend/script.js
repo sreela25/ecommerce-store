@@ -867,6 +867,7 @@ if(window.location.pathname.includes("cart.html"))
 if(window.location.pathname.includes("orders.html"))
 {
     loadOrders();
+    loadCustomerNote();
 }
 
 if(
@@ -878,6 +879,8 @@ if(
     loadDashboard();
 
     loadRevenueChart();
+
+    loadAdminNote();
 }
 
 if(
@@ -894,5 +897,95 @@ if(
     {
         adminLink.style.display =
         "none";
+    }
+}
+
+async function saveAdminNote() {
+
+    const message = document.getElementById("adminNote").value;
+
+    if (!message.trim()) {
+        alert("Please enter a note");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "https://ecommerce-store-backend-sklo.onrender.com/api/admin-note",
+            {
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem("token")
+                },
+
+                body: JSON.stringify({
+                    message: message
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.message);
+            return;
+        }
+
+        alert("Admin Note Saved");
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Failed to save note");
+
+    }
+}
+
+async function loadAdminNote() {
+
+    try {
+
+        const response = await fetch(
+            "https://ecommerce-store-backend-sklo.onrender.com/api/admin-note"
+        );
+
+        const data = await response.json();
+
+        const noteBox = document.getElementById("adminNote");
+
+        if (noteBox) {
+            noteBox.value = data.message;
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+}
+
+async function loadCustomerNote() {
+
+    try {
+
+        const response = await fetch(
+            "https://ecommerce-store-backend-sklo.onrender.com/api/admin-note"
+        );
+
+        const data = await response.json();
+
+        const noteText = document.getElementById("adminNoteText");
+
+        if (noteText) {
+            noteText.innerText = data.message;
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
     }
 }
