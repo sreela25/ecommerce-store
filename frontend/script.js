@@ -977,7 +977,8 @@ async function loadCustomerNote() {
 
         const data = await response.json();
 
-        const noteText = document.getElementById("adminNoteText");
+        const noteText =
+            document.getElementById("adminNoteText");
 
         if (noteText) {
             noteText.innerText = data.message;
@@ -985,7 +986,7 @@ async function loadCustomerNote() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error("Failed to load admin note:", error);
 
     }
 }
