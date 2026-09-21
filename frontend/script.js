@@ -115,49 +115,48 @@ async function loadProducts() {
 
 }
 
-function searchProducts()
-{
-    const text =
-    document.getElementById("search")
-    .value
-    .toLowerCase();
+function applyFilters() {
 
-    const filtered =
-    allProducts.filter(product =>
-        product.name
-        .toLowerCase()
-        .includes(text)
-    );
+    const searchText =
+        document.getElementById("search").value.toLowerCase();
 
-    displayProducts(filtered);
-}
-
-function filterProducts()
-{
     const category =
-    document.getElementById(
-        "categoryFilter"
-    ).value;
+        document.getElementById("categoryFilter").value;
 
-    if(category === "All")
-    {
-        displayProducts(
-            allProducts
+    const sort =
+        document.getElementById("sort").value;
+
+    // Start with all products
+    let products = [...allProducts];
+
+    // Search
+    if (searchText !== "") {
+        products = products.filter(product =>
+            product.name.toLowerCase().includes(searchText)
         );
-
-        return;
     }
 
-    const filtered =
-    allProducts.filter(
-        product =>
-        product.category ===
-        category
-    );
+    // Category
+    if (category !== "") {
+        products = products.filter(product =>
+            product.category === category
+        );
+    }
 
-    displayProducts(
-        filtered
-    );
+    // Sorting
+    if (sort === "low-high") {
+        products.sort((a, b) =>
+            Number(a.price) - Number(b.price)
+        );
+    }
+
+    if (sort === "high-low") {
+        products.sort((a, b) =>
+            Number(b.price) - Number(a.price)
+        );
+    }
+
+    displayProducts(products);
 }
 
 function displayProducts(products)
@@ -237,27 +236,6 @@ Edit
     output;
 }
 
-async function rateProduct(id,rating)
-{
-    await fetch(
-        `https://ecommerce-store-backend-sklo.onrender.com/api/products/rating/${id}`,
-        {
-            method:"PUT",
-
-            headers:{
-                "Content-Type":
-                "application/json"
-            },
-
-            body:JSON.stringify({
-                rating
-            })
-        }
-    );
-
-    loadProducts();
-}
-
 function editProduct(id)
 {
     const newPrice =
@@ -275,57 +253,6 @@ function editProduct(id)
         id,
         newPrice,
         newStock
-    );
-}
-
-function sortProducts()
-{
-    const sort =
-    document.getElementById(
-        "sortFilter"
-    ).value;
-
-    let products =
-    [...allProducts];
-
-    if(sort === "low")
-    {
-        products.sort(
-            (a,b) =>
-            a.price - b.price
-        );
-    }
-
-    else if(sort === "high")
-    {
-        products.sort(
-            (a,b) =>
-            b.price - a.price
-        );
-    }
-
-    else if(sort === "az")
-    {
-        products.sort(
-            (a,b) =>
-            a.name.localeCompare(
-                b.name
-            )
-        );
-    }
-
-    else if(sort === "za")
-    {
-        products.sort(
-            (a,b) =>
-            b.name.localeCompare(
-                a.name
-            )
-        );
-    }
-
-    displayProducts(
-        products
     );
 }
 
