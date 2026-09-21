@@ -101,6 +101,32 @@ async function login() {
     window.location.href = "./products.html";
 }
 
+function loadCategories() {
+
+    const categoryFilter =
+        document.getElementById("categoryFilter");
+
+    if (!categoryFilter) return;
+
+    const categories = [
+        ...new Set(
+            allProducts.map(product => product.category)
+        )
+    ];
+
+    categoryFilter.innerHTML =
+        `<option value="">All Categories</option>`;
+
+    categories.forEach(category => {
+
+        categoryFilter.innerHTML += `
+            <option value="${category}">
+                ${category}
+            </option>
+        `;
+    });
+}
+
 async function loadProducts() {
 
     const response = await fetch(
@@ -109,10 +135,9 @@ async function loadProducts() {
 
     allProducts = await response.json();
 
-    const products = allProducts;
+    loadCategories();
 
-    displayProducts(products);
-
+    displayProducts(allProducts);
 }
 
 function applyFilters() {
