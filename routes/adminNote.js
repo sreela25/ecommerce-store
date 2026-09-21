@@ -4,9 +4,11 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-// Get the note - customers can read it
+
+// Get note - customers can read
 router.get("/", async (req, res) => {
     try {
+
         let note = await AdminNote.findOne();
 
         if (!note) {
@@ -18,14 +20,16 @@ router.get("/", async (req, res) => {
         res.json(note);
 
     } catch (error) {
+
         res.status(500).json({
             message: error.message
         });
+
     }
 });
 
 
-// Update the note - admin only
+// Update note - admin only
 router.put("/", auth, async (req, res) => {
     try {
 
@@ -51,9 +55,11 @@ router.put("/", auth, async (req, res) => {
         });
 
     } catch (error) {
+
         res.status(500).json({
             message: error.message
         });
+
     }
 });
 
