@@ -857,6 +857,7 @@ document.getElementById("image").value = "";
 if(window.location.pathname.includes("products.html"))
 {
     loadProducts();
+    loadCustomerNote();
 }
 
 if(window.location.pathname.includes("cart.html"))
@@ -867,7 +868,6 @@ if(window.location.pathname.includes("cart.html"))
 if(window.location.pathname.includes("orders.html"))
 {
     loadOrders();
-    loadCustomerNote();
 }
 
 if(
