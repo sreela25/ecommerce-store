@@ -10,10 +10,6 @@ const productSchema = new mongoose.Schema({
 
     image: String,
 
-    rating: {
-    type: Number,
-    default: 0
-}
 
 });
 
