@@ -128,7 +128,6 @@ function loadCategories() {
 }
 
 async function loadProducts() {
-
     const response = await fetch(
         "https://ecommerce-store-backend-sklo.onrender.com/api/products"
     );
@@ -137,7 +136,8 @@ async function loadProducts() {
 
     loadCategories();
 
-    displayProducts(allProducts);
+    // Apply stock sorting immediately
+    applyFilters();
 }
 
 function applyFilters() {
