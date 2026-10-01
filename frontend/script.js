@@ -151,7 +151,6 @@ function applyFilters() {
     const sort =
         document.getElementById("sort").value;
 
-    // Start with all products
     let products = [...allProducts];
 
     // Search
@@ -168,18 +167,27 @@ function applyFilters() {
         );
     }
 
-    // Sorting
-    if (sort === "low-high") {
-        products.sort((a, b) =>
-            Number(a.price) - Number(b.price)
-        );
-    }
+    // Sort by stock first, then price
+    products.sort((a, b) => {
 
-    if (sort === "high-low") {
-        products.sort((a, b) =>
-            Number(b.price) - Number(a.price)
-        );
-    }
+        const aInStock = Number(a.stock) > 0;
+        const bInStock = Number(b.stock) > 0;
+
+        // In-stock first
+        if (aInStock && !bInStock) return -1;
+        if (!aInStock && bInStock) return 1;
+
+        // Both have same stock status
+        if (sort === "low-high") {
+            return Number(a.price) - Number(b.price);
+        }
+
+        if (sort === "high-low") {
+            return Number(b.price) - Number(a.price);
+        }
+
+        return 0;
+    });
 
     displayProducts(products);
 }
