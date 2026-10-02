@@ -412,3 +412,33 @@ select{
     margin-bottom: 0;
     white-space: pre-wrap;
 }
+
+.order-items {
+    margin-top: 15px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    margin: 10px 0;
+    background: #f8f8f8;
+    border-radius: 10px;
+}
+
+.order-item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background: white;
+    border-radius: 8px;
+}
+
+.order-item-details h4 {
+    margin: 0 0 8px 0;
+}
+
+.order-item-details p {
+    margin: 4px 0;
+}

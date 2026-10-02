@@ -49,13 +49,18 @@ await Cart.deleteMany({
 });
 
 router.get("/:userId", async (req, res) => {
+    try {
+        const orders = await Order.find({
+            userId: req.params.userId
+        }).populate("items.productId");
 
-    const orders = await Order.find({
-        userId: req.params.userId
-    });
+        res.json(orders);
 
-    res.json(orders);
-
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
 });
 
 router.put("/:id", auth, async (req, res) => {
@@ -89,22 +94,17 @@ if(req.user.role !== "admin")
 });
 
 router.get("/", async (req, res) => {
-
     try {
-
-        const orders =
-        await Order.find();
+        const orders = await Order.find()
+            .populate("items.productId");
 
         res.json(orders);
 
     } catch(error) {
-
         res.status(500).json({
-            message:error.message
+            message: error.message
         });
-
     }
-
 });
 
 module.exports = router;

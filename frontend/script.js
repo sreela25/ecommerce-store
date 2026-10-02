@@ -616,118 +616,151 @@ window.location.href = "./orders.html";
 
 async function loadOrders() {
 
-    const userId =
-    localStorage.getItem("userId");
+    const role = localStorage.getItem("role");
+    const userId = localStorage.getItem("userId");
 
-    const isAdmin =
-    localStorage.getItem("role") === "admin";
+    let url;
 
-    let response;
-
-    if(isAdmin)
-    {
-        response = await fetch(
-            "https://ecommerce-store-backend-sklo.onrender.com/api/orders"
-        );
-    }
-    else
-    {
-        response = await fetch(
-            `https://ecommerce-store-backend-sklo.onrender.com/api/orders/${userId}`
-        );
+    if (role === "admin") {
+        url = "https://ecommerce-store-backend-sklo.onrender.com/api/orders";
+    } else {
+        url = `https://ecommerce-store-backend-sklo.onrender.com/api/orders/${userId}`;
     }
 
-    const orders =
-    await response.json();
+    try {
 
-    if(orders.length === 0)
-    {
-        document.getElementById("orders")
-        .innerHTML =
-        "<h2>No Orders Yet</h2>";
+        const response = await fetch(url);
+        const orders = await response.json();
 
-        return;
+        const ordersContainer =
+            document.getElementById("orders");
+
+        ordersContainer.innerHTML = "";
+
+        if (orders.length === 0) {
+            ordersContainer.innerHTML =
+                "<p>No orders found.</p>";
+            return;
+        }
+
+        orders.forEach(order => {
+
+            let itemsHTML = "";
+
+            order.items.forEach(item => {
+
+                const product = item.productId;
+
+                const price = Number(product.price);
+                const quantity = Number(item.quantity);
+                const subtotal = price * quantity;
+
+                itemsHTML += `
+                    <div class="order-item">
+
+                        <img
+                            src="${product.image}"
+                            class="order-item-image"
+                        >
+
+                        <div class="order-item-details">
+
+                            <h4>${product.name}</h4>
+
+                            <p>
+                                Price: ₹${price}
+                            </p>
+
+                            <p>
+                                Quantity: ${quantity}
+                            </p>
+
+                            <p>
+                                Subtotal: ₹${subtotal}
+                            </p>
+
+                        </div>
+
+                    </div>
+                `;
+            });
+
+            ordersContainer.innerHTML += `
+
+                <div class="order-card">
+
+                    <h3>
+                        Order #${order._id}
+                    </h3>
+
+                    <p>
+                        <strong>Total:</strong>
+                        ₹${order.totalAmount}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        ${order.status}
+                    </p>
+
+                    <h4>Order Items</h4>
+
+                    <div class="order-items">
+                        ${itemsHTML}
+                    </div>
+
+                    ${
+                        role === "admin"
+                        ?
+                        `
+                        <select
+                            class="status-select"
+                            onchange="updateOrderStatus(
+                                '${order._id}',
+                                this.value
+                            )"
+                        >
+                            <option value="Pending"
+                                ${order.status === "Pending" ? "selected" : ""}>
+                                Pending
+                            </option>
+
+                            <option value="Processing"
+                                ${order.status === "Processing" ? "selected" : ""}>
+                                Processing
+                            </option>
+
+                            <option value="Shipped"
+                                ${order.status === "Shipped" ? "selected" : ""}>
+                                Shipped
+                            </option>
+
+                            <option value="Delivered"
+                                ${order.status === "Delivered" ? "selected" : ""}>
+                                Delivered
+                            </option>
+
+                            <option value="Cancelled"
+                                ${order.status === "Cancelled" ? "selected" : ""}>
+                                Cancelled
+                            </option>
+                        </select>
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+            `;
+        });
+
+    } catch (error) {
+
+        console.error("Error loading orders:", error);
+
+        document.getElementById("orders").innerHTML =
+            "<p>Failed to load orders.</p>";
     }
-
-    let output = "";
-
-    orders.forEach(order => {
-
-        output += `
-
-<div class="order-card">
-
-<h3>
-Order #${order._id.slice(-5)}
-</h3>
-
-${isAdmin ? `
-<p>
-<b>User:</b>
-${order.userId}
-</p>
-` : ""}
-
-<p>
-<b>Date:</b>
-${new Date(order.createdAt)
-.toLocaleDateString()}
-</p>
-
-<p>
-<b>Total:</b>
-Rs. ${order.totalAmount}
-</p>
-
-<p class="status-${order.status}">
-<b>Status:</b>
-${order.status}
-</p>
-
-${isAdmin ? `
-
-<select
-class="status-select"
-onchange="
-updateOrderStatus(
-'${order._id}',
-this.value
-)">
-<option
-value="Pending"
-${order.status==="Pending"?"selected":""}>
-Pending
-</option>
-
-<option
-value="Shipped"
-${order.status==="Shipped"?"selected":""}>
-Shipped
-</option>
-
-<option
-value="Delivered"
-${order.status==="Delivered"?"selected":""}>
-Delivered
-</option>
-
-<option
-value="Cancelled"
-${order.status==="Cancelled"?"selected":""}>
-Cancelled
-</option>
-
-</select>
-
-` : ""}
-
-</div>
-<br>
-`;
-    });
-
-    document.getElementById("orders")
-    .innerHTML = output;
 }
 
 async function updateOrderStatus(id,status)
