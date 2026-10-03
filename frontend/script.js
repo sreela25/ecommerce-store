@@ -405,58 +405,46 @@ async function loadCart() {
             item.productId.price *
             item.quantity;
 
-        output += `
+        if (discount > 0) {
 
-        <div class="card">
+    output += `
 
-            <h3>Cart Item</h3>
+        <div class="cart-summary">
+
+            <h2>
+                Subtotal:
+                Rs. ${total.toFixed(2)}
+            </h2>
 
             <h3>
-                ${item.productId.name}
+                Discount:
+                5% OFF (-Rs. ${discount.toFixed(2)})
             </h3>
 
-            <img
-                src="${item.productId.image}"
-                class="product-image">
-
-            <p>
-                Price:
-                Rs. ${item.productId.price}
-            </p>
-
-            <div class="qty-box">
-
-                <button
-                    onclick="updateQuantity(
-                        '${item._id}',
-                        ${item.quantity - 1}
-                    )">
-                    -
-                </button>
-
-                <span>
-                    ${item.quantity}
-                </span>
-
-                <button
-                    onclick="updateQuantity(
-                        '${item._id}',
-                        ${item.quantity + 1}
-                    )">
-                    +
-                </button>
-
-            </div>
-
-            <button
-                onclick="removeCartItem('${item._id}')"
-                class="delete-btn">
-                Remove
-            </button>
+            <h2>
+                Final Total:
+                Rs. ${finalTotal.toFixed(2)}
+            </h2>
 
         </div>
 
-        `;
+    `;
+
+} else {
+
+    output += `
+
+        <div class="cart-summary">
+
+            <h2>
+                Total:
+                Rs. ${total.toFixed(2)}
+            </h2>
+
+        </div>
+
+    `;
+}
     });
 
     // Calculate discount

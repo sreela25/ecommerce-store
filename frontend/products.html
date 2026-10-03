@@ -164,16 +164,16 @@ async function sendCartToWhatsApp() {
         if (discount > 0) {
 
             message +=
-                `Discount: 5% OFF (-₹${discount.toFixed(2)})\n`;
+        `Discount: 5% OFF (-₹${discount.toFixed(2)})\n`;
+
+            message +=
+        `Final Total: ₹${finalTotal.toFixed(2)}\n\n`;
 
         } else {
 
             message +=
-                `Discount: No Discount\n`;
-        }
-
-        message +=
-            `Final Total: ₹${finalTotal.toFixed(2)}\n\n`;
+        `Total: ₹${subtotal.toFixed(2)}\n\n`;
+}
 
         message +=
             "Please confirm my order.";
