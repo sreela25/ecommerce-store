@@ -15,6 +15,13 @@ const orderSchema = new mongoose.Schema({
         quantity: Number
     }],
 
+    subtotal: Number,
+
+    discount: {
+        type: Number,
+        default: 0
+    },
+
     totalAmount: Number,
 
     status: {

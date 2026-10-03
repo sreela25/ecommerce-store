@@ -5,36 +5,66 @@ const Cart = require("../models/Cart");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-
     try {
-
-        const order = new Order(req.body);
-
-        await order.save();
 
         const Product = require("../models/Product");
 
-for(const item of req.body.items)
-{
-    const product =
-    await Product.findById(
-        item.productId
-    );
+        let subtotal = 0;
 
-    if(product.stock < item.quantity)
-{
-    return res.status(400).json({
-        message: `${product.name} is out of stock`
-    });
-}
+        // Calculate subtotal
+        for (const item of req.body.items) {
 
-product.stock -= item.quantity;
+            const product = await Product.findById(item.productId);
 
-await product.save();
-}
-await Cart.deleteMany({
-    userId: req.body.userId
-});
+            if (!product) {
+                return res.status(404).json({
+                    message: "Product not found"
+                });
+            }
+
+            if (product.stock < item.quantity) {
+                return res.status(400).json({
+                    message: `${product.name} is out of stock`
+                });
+            }
+
+            subtotal += product.price * item.quantity;
+        }
+
+        // Calculate 5% discount if subtotal is more than ₹100
+        let discount = 0;
+
+        if (subtotal > 100) {
+            discount = subtotal * 0.05;
+        }
+
+        const totalAmount = subtotal - discount;
+
+        // Create order
+        const order = new Order({
+            userId: req.body.userId,
+            items: req.body.items,
+            subtotal: subtotal,
+            discount: discount,
+            totalAmount: totalAmount
+        });
+
+        await order.save();
+
+        // Reduce stock
+        for (const item of req.body.items) {
+
+            const product = await Product.findById(item.productId);
+
+            product.stock -= item.quantity;
+
+            await product.save();
+        }
+
+        // Clear cart
+        await Cart.deleteMany({
+            userId: req.body.userId
+        });
 
         res.json(order);
 
@@ -45,7 +75,6 @@ await Cart.deleteMany({
         });
 
     }
-
 });
 
 router.get("/:userId", async (req, res) => {

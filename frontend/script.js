@@ -594,8 +594,7 @@ async function placeOrder() {
 
             body: JSON.stringify({
                 userId,
-                items,
-                totalAmount: total
+                items
             })
         }
     );
@@ -694,9 +693,23 @@ async function loadOrders() {
                     </h3>
 
                     <p>
-                        <strong>Total:</strong>
-                        ₹${order.totalAmount}
-                    </p>
+    <strong>Subtotal:</strong>
+    ₹${order.subtotal}
+</p>
+
+<p>
+    <strong>Discount:</strong>
+    ${
+        order.discount > 0
+        ? `5% OFF (-₹${order.discount.toFixed(2)})`
+        : "No Discount"
+    }
+</p>
+
+<p>
+    <strong>Final Total:</strong>
+    ₹${order.totalAmount.toFixed(2)}
+</p>
 
                     <p>
                         <strong>Status:</strong>
