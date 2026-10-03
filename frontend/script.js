@@ -374,8 +374,7 @@ async function addToCart(productId) {
 
 async function loadCart() {
 
-    const userId =
-    localStorage.getItem("userId");
+    const userId = localStorage.getItem("userId");
 
     const response = await fetch(
         `https://ecommerce-store-backend-sklo.onrender.com/api/cart/${userId}`
@@ -384,16 +383,15 @@ async function loadCart() {
     const items = await response.json();
 
     let total = 0;
-
     let output = "";
 
-    if(items.length === 0)
-    {
+    if (items.length === 0) {
+
         document.getElementById("cart").innerHTML = `
-        <div class="empty-cart">
-            <h2>Your Cart is Empty</h2>
-            <p>Add products to continue shopping.</p>
-        </div>
+            <div class="empty-cart">
+                <h2>Your Cart is Empty</h2>
+                <p>Add products to continue shopping.</p>
+            </div>
         `;
 
         return;
@@ -405,87 +403,114 @@ async function loadCart() {
             item.productId.price *
             item.quantity;
 
-        if (discount > 0) {
+        output += `
 
-    output += `
+            <div class="card">
 
-        <div class="cart-summary">
+                <h3>Cart Item</h3>
 
-            <h2>
-                Subtotal:
-                Rs. ${total.toFixed(2)}
-            </h2>
+                <h3>
+                    ${item.productId.name}
+                </h3>
 
-            <h3>
-                Discount:
-                5% OFF (-Rs. ${discount.toFixed(2)})
-            </h3>
+                <img
+                    src="${item.productId.image}"
+                    class="product-image">
 
-            <h2>
-                Final Total:
-                Rs. ${finalTotal.toFixed(2)}
-            </h2>
+                <p>
+                    Price:
+                    Rs. ${item.productId.price}
+                </p>
 
-        </div>
+                <div class="qty-box">
 
-    `;
+                    <button
+                        onclick="updateQuantity(
+                            '${item._id}',
+                            ${item.quantity - 1}
+                        )">
+                        -
+                    </button>
 
-} else {
+                    <span>
+                        ${item.quantity}
+                    </span>
 
-    output += `
+                    <button
+                        onclick="updateQuantity(
+                            '${item._id}',
+                            ${item.quantity + 1}
+                        )">
+                        +
+                    </button>
 
-        <div class="cart-summary">
+                </div>
 
-            <h2>
-                Total:
-                Rs. ${total.toFixed(2)}
-            </h2>
+                <button
+                    onclick="removeCartItem('${item._id}')"
+                    class="delete-btn">
+                    Remove
+                </button>
 
-        </div>
+            </div>
 
-    `;
-}
+        `;
     });
 
-    // Calculate discount
+    // Calculate 5% discount
     let discount = 0;
 
     if (total > 100) {
         discount = total * 0.05;
     }
 
-    // Final amount
     const finalTotal = total - discount;
 
-    output += `
 
-        <div class="cart-summary">
+    // Show discount only when applicable
+    if (discount > 0) {
 
-            <h2>
-                Subtotal:
-                Rs. ${total.toFixed(2)}
-            </h2>
+        output += `
 
-            <h3>
-                Discount:
-                ${
-                    discount > 0
-                    ? `5% OFF (-Rs. ${discount.toFixed(2)})`
-                    : "No Discount"
-                }
-            </h3>
+            <div class="cart-summary">
 
-            <h2>
-                Final Total:
-                Rs. ${finalTotal.toFixed(2)}
-            </h2>
+                <h2>
+                    Subtotal:
+                    Rs. ${total.toFixed(2)}
+                </h2>
 
-        </div>
+                <h3>
+                    Discount:
+                    5% OFF (-Rs. ${discount.toFixed(2)})
+                </h3>
 
-    `;
+                <h2>
+                    Final Total:
+                    Rs. ${finalTotal.toFixed(2)}
+                </h2>
 
-    document.getElementById("cart").innerHTML =
-        output;
+            </div>
+
+        `;
+
+    } else {
+
+        output += `
+
+            <div class="cart-summary">
+
+                <h2>
+                    Total:
+                    Rs. ${total.toFixed(2)}
+                </h2>
+
+            </div>
+
+        `;
+    }
+
+
+    document.getElementById("cart").innerHTML = output;
 }
 
 async function updateQuantity(id, quantity)
