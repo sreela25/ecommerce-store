@@ -388,80 +388,116 @@ async function loadCart() {
     let output = "";
 
     if(items.length === 0)
-{
-    document.getElementById("cart").innerHTML = `
-<div class="empty-cart">
-    <h2>Your Cart is Empty</h2>
-    <p>Add products to continue shopping.</p>
-</div>
-`;
+    {
+        document.getElementById("cart").innerHTML = `
+        <div class="empty-cart">
+            <h2>Your Cart is Empty</h2>
+            <p>Add products to continue shopping.</p>
+        </div>
+        `;
 
-    return;
-}
+        return;
+    }
 
     items.forEach(item => {
+
         total +=
-item.productId.price *
-item.quantity;
+            item.productId.price *
+            item.quantity;
+
         output += `
 
-<div class="card">
+        <div class="card">
 
-    <h3>Cart Item</h3>
+            <h3>Cart Item</h3>
 
-    <h3>
-    ${item.productId.name}
-</h3>
+            <h3>
+                ${item.productId.name}
+            </h3>
 
-<img
-src="${item.productId.image}"
-class="product-image">
+            <img
+                src="${item.productId.image}"
+                class="product-image">
 
-<p>
-    Price:
-    Rs. ${item.productId.price}
-</p>
+            <p>
+                Price:
+                Rs. ${item.productId.price}
+            </p>
 
-    <div class="qty-box">
+            <div class="qty-box">
 
-<button
-onclick="updateQuantity('${item._id}', ${item.quantity - 1})">
--
-</button>
+                <button
+                    onclick="updateQuantity(
+                        '${item._id}',
+                        ${item.quantity - 1}
+                    )">
+                    -
+                </button>
 
-<span>
-${item.quantity}
-</span>
+                <span>
+                    ${item.quantity}
+                </span>
 
-<button
-onclick="updateQuantity('${item._id}', ${item.quantity + 1})">
-+
-</button>
+                <button
+                    onclick="updateQuantity(
+                        '${item._id}',
+                        ${item.quantity + 1}
+                    )">
+                    +
+                </button>
 
-</div>
+            </div>
 
-    <button
-onclick="removeCartItem('${item._id}')"
-class="delete-btn">
-Remove
-</button>
+            <button
+                onclick="removeCartItem('${item._id}')"
+                class="delete-btn">
+                Remove
+            </button>
 
-</div>
+        </div>
 
-`;
+        `;
     });
+
+    // Calculate discount
+    let discount = 0;
+
+    if (total > 100) {
+        discount = total * 0.05;
+    }
+
+    // Final amount
+    const finalTotal = total - discount;
 
     output += `
 
-<h2>
-Total:
-Rs. ${total}
-</h2>
+        <div class="cart-summary">
 
-`;
+            <h2>
+                Subtotal:
+                Rs. ${total.toFixed(2)}
+            </h2>
+
+            <h3>
+                Discount:
+                ${
+                    discount > 0
+                    ? `5% OFF (-Rs. ${discount.toFixed(2)})`
+                    : "No Discount"
+                }
+            </h3>
+
+            <h2>
+                Final Total:
+                Rs. ${finalTotal.toFixed(2)}
+            </h2>
+
+        </div>
+
+    `;
 
     document.getElementById("cart").innerHTML =
-    output;
+        output;
 }
 
 async function updateQuantity(id, quantity)
