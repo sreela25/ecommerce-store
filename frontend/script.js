@@ -693,6 +693,31 @@ async function loadOrders() {
 
         orders.forEach(order => {
 
+            // Get order date
+            const orderDate = order.createdAt
+                ? new Date(order.createdAt)
+                : new Date(
+                    parseInt(
+                        order._id.substring(0, 8),
+                        16
+                    ) * 1000
+                );
+
+            // Format date
+            const formattedDate =
+                orderDate.toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                });
+
+            // Format time
+            const formattedTime =
+                orderDate.toLocaleTimeString("en-IN", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
+
             let itemsHTML = "";
 
             order.items.forEach(item => {
@@ -713,7 +738,9 @@ async function loadOrders() {
 
                         <div class="order-item-details">
 
-                            <h4>${product.name}</h4>
+                            <h4>
+                                ${product.name}
+                            </h4>
 
                             <p>
                                 Price: ₹${price}
@@ -742,30 +769,44 @@ async function loadOrders() {
                     </h3>
 
                     <p>
-    <strong>Subtotal:</strong>
-    ₹${order.subtotal}
-</p>
+                        <strong>Order Date:</strong>
+                        ${formattedDate}
+                        •
+                        ${formattedTime}
+                    </p>
 
-<p>
-    <strong>Discount:</strong>
-    ${
-        order.discount > 0
-        ? `5% OFF (-₹${order.discount.toFixed(2)})`
-        : "No Discount"
-    }
-</p>
+                    <p>
+                        <strong>Subtotal:</strong>
+                        ₹${Number(order.subtotal).toFixed(2)}
+                    </p>
 
-<p>
-    <strong>Final Total:</strong>
-    ₹${order.totalAmount.toFixed(2)}
-</p>
+                    ${
+                        Number(order.discount) > 0
+                        ?
+                        `
+                        <p>
+                            <strong>Discount:</strong>
+                            5% OFF
+                            (-₹${Number(order.discount).toFixed(2)})
+                        </p>
+                        `
+                        :
+                        ""
+                    }
+
+                    <p>
+                        <strong>Final Total:</strong>
+                        ₹${Number(order.totalAmount).toFixed(2)}
+                    </p>
 
                     <p>
                         <strong>Status:</strong>
                         ${order.status}
                     </p>
 
-                    <h4>Order Items</h4>
+                    <h4>
+                        Order Items
+                    </h4>
 
                     <div class="order-items">
                         ${itemsHTML}
@@ -782,30 +823,42 @@ async function loadOrders() {
                                 this.value
                             )"
                         >
+
                             <option value="Pending"
-                                ${order.status === "Pending" ? "selected" : ""}>
+                                ${order.status === "Pending"
+                                ? "selected"
+                                : ""}>
                                 Pending
                             </option>
 
                             <option value="Processing"
-                                ${order.status === "Processing" ? "selected" : ""}>
+                                ${order.status === "Processing"
+                                ? "selected"
+                                : ""}>
                                 Processing
                             </option>
 
                             <option value="Shipped"
-                                ${order.status === "Shipped" ? "selected" : ""}>
+                                ${order.status === "Shipped"
+                                ? "selected"
+                                : ""}>
                                 Shipped
                             </option>
 
                             <option value="Delivered"
-                                ${order.status === "Delivered" ? "selected" : ""}>
+                                ${order.status === "Delivered"
+                                ? "selected"
+                                : ""}>
                                 Delivered
                             </option>
 
                             <option value="Cancelled"
-                                ${order.status === "Cancelled" ? "selected" : ""}>
+                                ${order.status === "Cancelled"
+                                ? "selected"
+                                : ""}>
                                 Cancelled
                             </option>
+
                         </select>
                         `
                         :
@@ -818,7 +871,10 @@ async function loadOrders() {
 
     } catch (error) {
 
-        console.error("Error loading orders:", error);
+        console.error(
+            "Error loading orders:",
+            error
+        );
 
         document.getElementById("orders").innerHTML =
             "<p>Failed to load orders.</p>";
