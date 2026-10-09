@@ -460,7 +460,7 @@ async function loadCart() {
     // Calculate 5% discount
     let discount = 0;
 
-    if (total > 100) {
+    if (total > 200) {
         discount = total * 0.05;
     }
 

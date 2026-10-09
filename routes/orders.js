@@ -31,10 +31,10 @@ router.post("/", async (req, res) => {
             subtotal += product.price * item.quantity;
         }
 
-        // Calculate 5% discount if subtotal is more than ₹100
+        // Calculate 5% discount if subtotal is more than ₹200
         let discount = 0;
 
-        if (subtotal > 100) {
+        if (subtotal > 200) {
             discount = subtotal * 0.05;
         }
 
